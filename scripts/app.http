@@ -1,0 +1,14 @@
+# 添加仓库信息
+POST http://127.0.0.1:10789/app HTTP/1.1
+content-type: application/json
+
+{
+    "name": "sample",
+    "repo_url": "https://github.com/localsend/localsend.git",
+    "mark": "测试"
+}
+
+###
+
+# 获取仓库数据列表
+GET http://127.0.0.1:10789/app HTTP/1.1
