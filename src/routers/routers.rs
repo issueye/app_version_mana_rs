@@ -1,6 +1,6 @@
-use crate::handlers::handlers::*;
-use actix_web::web;
+use crate::handlers::handlers;
+use actix_web::web::{self, get};
 
 pub fn general_routes(cfg: &mut web::ServiceConfig) {
-    cfg.route("health", web::get().to(health_check_handler));
+    cfg.route("health", get().to(handlers::health_check_handler));
 }
