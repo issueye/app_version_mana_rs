@@ -16,12 +16,14 @@ use handlers::handlers as index_handler;
 
 #[actix_web::main]
 async fn main() -> io::Result<()> {
-
-    // std::env::set_var("RUST_LOG", "actix_web=info,diesel=debug,actix=info");
+    
+    // 初始化日志，并且设置日志等级
     env_logger::init_from_env(Env::default().default_filter_or("debug"));
-
+    
+    // 初始化数据库
     let db_pool = db::init().await;
-
+    
+    // 初始化 server
     let app = move || App::new()
     .app_data(Data::new(db_pool.clone()))
     .wrap(middleware::Logger::default())
