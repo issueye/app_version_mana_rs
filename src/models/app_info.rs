@@ -2,7 +2,7 @@ use log::{debug};
 use serde::{Serialize, Deserialize};
 use crate::pkg::utils::id;
 use chrono::prelude::*;
-use sqlx::{self, Pool, MySql};
+use sqlx::{self, Pool, MySql, pool};
 
 #[derive(Serialize, Deserialize, Debug, Clone, sqlx::FromRow)]
 pub struct AppInfo {
@@ -33,5 +33,17 @@ impl CreateAppInfo {
 
         debug!("影响行数：{}", result.rows_affected());
         Ok(())
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct AppInfoLst {
+    pub id: String,
+}
+
+impl AppInfoLst {
+    pub async fn list(&self, pool: &Pool<MySql>) -> Result<Vec<AppInfo>, sqlx::Error> {
+        let result = sqlx::query_as::<_, AppInfo>("SELECT * FROM app_version_mana.app_info").fetch_all(pool).await?;
+        Ok(result)
     }
 }
